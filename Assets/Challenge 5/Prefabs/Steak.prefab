@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3985378201660076449}
   - component: {fileID: 5400576685552452559}
   - component: {fileID: 1308882502}
+  - component: {fileID: 114620723300991596}
   m_Layer: 0
   m_Name: Steak
   m_TagString: Untagged
@@ -95,6 +96,7 @@ MonoBehaviour:
   pointValue: 15
   explosionFx: {fileID: 8328426341284958323, guid: 066dd222b602e49afbe0f2b9c3c96ddb,
     type: 3}
+  timeOnScreen: 1
 --- !u!64 &5400576685552452559
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -125,3 +127,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114620723300991596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5626452297013284046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6da289543d5e4a58ae451e7528046a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
