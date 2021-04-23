@@ -8,7 +8,8 @@ public class Target : MonoBehaviour
     private float _maxTorque = 10;
     private float _xRange = 4, _ySpawnPos = -6;
     Rigidbody _targetRb;
-    // Start is called before the first frame update
+    public int pointValue;
+    public ParticleSystem explosionParticle;
     void Start()
     {
         // Creates a new vector with given x, y components and sets z to zero. So, z is always zero.
@@ -17,6 +18,9 @@ public class Target : MonoBehaviour
         _targetRb = GetComponent<Rigidbody>();
         _targetRb.AddForce(RandomForce(), ForceMode.Impulse);
         _targetRb.AddTorque(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
+
+        // オブジェクトの名前によって、pointValue を初期化するメソッド追加していいかも
+        Debug.Log(this.gameObject.name);
     }
 
     // Update is called once per frame
@@ -28,6 +32,8 @@ public class Target : MonoBehaviour
     void OnMouseDown()
     {
         Destroy(gameObject);
+        GameManager.UpdateScore(pointValue);
+        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
     }
 
     void OnTriggerEnter(Collider other)
