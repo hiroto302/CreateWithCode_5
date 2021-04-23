@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour
     public static TextMeshProUGUI scoreText;
     private static int _score;
     public static TextMeshProUGUI gameOverText;
-    public static bool isGameActive = true;
+    public static bool isGameActive;
     public static Button restartButton;
+    public GameObject titleScreen;
     void Awake()
     {
         scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
@@ -24,8 +25,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        StartCoroutine(SpawnTarget());
-        UpdateScore(0);
+
     }
 
     IEnumerator SpawnTarget()
@@ -55,5 +55,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         isGameActive = true;
         _score = 0;
+    }
+
+    public void StartGame(int difficulty)
+    {
+        isGameActive = true;
+        StartCoroutine(SpawnTarget());
+        UpdateScore(0);
+        titleScreen.SetActive(false);
+
+        _spawnRate /= difficulty;
     }
 }

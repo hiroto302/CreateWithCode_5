@@ -23,7 +23,6 @@ public class Target : MonoBehaviour
         Debug.Log(this.gameObject.name);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
