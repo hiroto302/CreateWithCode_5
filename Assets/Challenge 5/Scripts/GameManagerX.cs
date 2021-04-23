@@ -22,6 +22,10 @@ public class GameManagerX : MonoBehaviour
     private float minValueX = -3.75f; //  x value of the center of the left-most square
     private float minValueY = -3.75f; //  y value of the center of the bottom-most square
 
+    public TextMeshProUGUI timeText;
+    private int time;
+
+
     // Start the game, remove title screen, reset score, and adjust spawnRate based on difficulty button clicked
     public void StartGame(int difficulty)
     {
@@ -31,7 +35,10 @@ public class GameManagerX : MonoBehaviour
         score = 0;
         UpdateScore(0);
         titleScreen.SetActive(false);
+        time = 60;
+        StartCoroutine(TimeCount());
     }
+
 
     // While game is active spawn a random target
     IEnumerator SpawnTarget()
@@ -86,4 +93,20 @@ public class GameManagerX : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    // Time
+
+    IEnumerator TimeCount()
+    {
+        while(isGameActive && time != 0)
+        {
+            yield return new WaitForSeconds(1);
+            time--;
+            timeText.text = "Time : " + time.ToString();
+            if(time == 0)
+            {
+                // GameOverではないけどクリア・スコアメッセージ表示させてあげたらいいかも
+                GameOver();
+            }
+        }
+    }
 }

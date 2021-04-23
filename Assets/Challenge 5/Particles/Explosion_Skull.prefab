@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3165264279113548591}
   - component: {fileID: 2852413659578719189}
   - component: {fileID: 1350371015607255179}
-  - component: {fileID: 6912912583741544959}
   m_Layer: 0
   m_Name: Explosion_Skull
   m_TagString: Untagged
@@ -4635,7 +4634,7 @@ ParticleSystem:
 --- !u!199 &1350371015607255179
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4694,15 +4693,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &6912912583741544959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8328426341284958323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6da289543d5e4a58ae451e7528046a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

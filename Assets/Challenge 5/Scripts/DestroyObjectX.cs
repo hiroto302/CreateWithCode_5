@@ -13,7 +13,7 @@ public class DestroyObjectX : MonoBehaviour
 
     void Start()
     {
-        Invoke("DestroyObject", 1);
+        Invoke("DestroyObject", 2);
     }
     void OnEnable()
     {
