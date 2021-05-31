@@ -24,14 +24,20 @@ public class Target : MonoBehaviour
         // Debug.Log(this.gameObject.name);
     }
 
-    void Update()
-    {
-        
-    }
-
     void OnMouseDown()
     {
-        if(GameManager.Instance.isGameActive)
+        // if(GameManager.Instance.isGameActive)
+        // {
+        //     Destroy(gameObject);
+        //     GameManager.UpdateScore(pointValue);
+        //     Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+        // }
+    }
+
+    // ClickAndSwipeによって呼び出されるメソッド, Click 操作ではなく Drug 操作でオブジェクトを破壊していく
+    public void DestroyTarget()
+    {
+        if (GameManager.Instance.isGameActive)
         {
             Destroy(gameObject);
             GameManager.UpdateScore(pointValue);
