@@ -5,19 +5,25 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoSingleton<GameManager>
 {
     public List<GameObject> targets;
     private float _spawnRate = 1.0f;
+    private static int _score;                  // スコア
     public static TextMeshProUGUI scoreText;
-    private static int _score;
+
+    public int lives = 3;                         // ライフ
+    public TextMeshProUGUI livesText;
+
     public static TextMeshProUGUI gameOverText;
-    public static bool isGameActive;
+    public bool isGameActive;
     public static Button restartButton;
     public GameObject titleScreen;
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        livesText = GameObject.Find("LivesText").GetComponent<TextMeshProUGUI>();
         gameOverText = GameObject.Find("GameOverText").GetComponent<TextMeshProUGUI>();
         gameOverText.gameObject.SetActive(false);
         restartButton = GameObject.Find("RestartButton").GetComponent<Button>();
@@ -25,45 +31,67 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-
+        UpdateLives(0);
     }
 
+    // 難易度選択ボタンを押された時、実行される処理 (Easy = 1, Medium = 2, Hard = 3)
+    public void StartGame(int difficulty)
+    {
+        isGameActive = true;
+        _spawnRate /= difficulty;       // ターゲットを生み出す間隔を難易度選択によって変える
+        StartCoroutine(SpawnTarget());
+        UpdateScore(0);
+        titleScreen.SetActive(false);
+    }
+
+    // ターゲットを生み出す routine
     IEnumerator SpawnTarget()
     {
         while(isGameActive)
         {
             yield return new WaitForSeconds(_spawnRate);
+            // ランダムに生成
             int index = Random.Range(0, targets.Count);
             Instantiate(targets[index]);
         }
     }
 
+    // スコアの更新
     public static void UpdateScore(int scoreToAdd)
     {
         _score += scoreToAdd;
+        // text を スコアに合わせる
         scoreText.text = "Score : " + _score.ToString();
     }
 
-    public static void GameOver(bool gameover)
+    // Lives の更新
+    public void UpdateLives(int livesToAdd)
+    {
+        lives += livesToAdd;
+        livesText.text = "Lives : " + lives.ToString();
+
+        // ゲームオーバーの処理
+        if(lives <= 0)
+        {
+            GameOver(true);
+        }
+    }
+
+    // ゲームオーバーになった時の処理
+    public void GameOver(bool gameover)
     {
         gameOverText.gameObject.SetActive(gameover);
         isGameActive = false;
         restartButton.gameObject.SetActive(true);
     }
+
+    // ゲームの再開（現在のシーンを再読み込み・初期化処理）
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // 初期化処理
         isGameActive = true;
         _score = 0;
-    }
-
-    public void StartGame(int difficulty)
-    {
-        isGameActive = true;
-        StartCoroutine(SpawnTarget());
-        UpdateScore(0);
-        titleScreen.SetActive(false);
-
-        _spawnRate /= difficulty;
+        GameOver(false);
     }
 }

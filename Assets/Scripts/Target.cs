@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// ターゲットクラス
 public class Target : MonoBehaviour
 {
     private float _minSpeed = 12, _maxSpeed = 16 ;
@@ -20,7 +21,7 @@ public class Target : MonoBehaviour
         _targetRb.AddTorque(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
 
         // オブジェクトの名前によって、pointValue を初期化するメソッド追加していいかも
-        Debug.Log(this.gameObject.name);
+        // Debug.Log(this.gameObject.name);
     }
 
     void Update()
@@ -30,7 +31,7 @@ public class Target : MonoBehaviour
 
     void OnMouseDown()
     {
-        if(GameManager.isGameActive)
+        if(GameManager.Instance.isGameActive)
         {
             Destroy(gameObject);
             GameManager.UpdateScore(pointValue);
@@ -38,12 +39,15 @@ public class Target : MonoBehaviour
         }
     }
 
+    // Sensor(存在範囲) に触れた時このオブジェクトを削除
     void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+        // Bad Object 以外の場合, Lives を減らしていく
         if(!gameObject.CompareTag("Bad"))
         {
-            GameManager.GameOver(true);
+            GameManager.Instance.UpdateLives(-1);
+            // GameManager.Instance.GameOver(true);
         }
     }
 
