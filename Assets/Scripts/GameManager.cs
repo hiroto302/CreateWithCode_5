@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// Gameシーンの制御 + Spawn, UI, Sound Manager の役割も担ってる
 public class GameManager : MonoSingleton<GameManager>
 {
     public List<GameObject> targets;
@@ -12,13 +13,21 @@ public class GameManager : MonoSingleton<GameManager>
     private static int _score;                  // スコア
     public static TextMeshProUGUI scoreText;
 
-    public int lives = 3;                         // ライフ
+    public int lives = 3;                       // ライフ
     public TextMeshProUGUI livesText;
 
     public static TextMeshProUGUI gameOverText;
     public bool isGameActive;
     public static Button restartButton;
     public GameObject titleScreen;
+
+    public AudioSource BGMAud;                  // BGM
+    public Slider BGMVolumeSlider;              // 音量を制御するスライダー
+    private static float bgmVolume = 0.7f;      // 音量
+
+    bool isGamePause = false;                   // Pause している最中か
+    public GameObject pauseScreen;              // Pause 画面
+
     protected override void Awake()
     {
         base.Awake();
@@ -28,10 +37,23 @@ public class GameManager : MonoSingleton<GameManager>
         gameOverText.gameObject.SetActive(false);
         restartButton = GameObject.Find("RestartButton").GetComponent<Button>();
         restartButton.gameObject.SetActive(false);
+        BGMVolumeSlider.value = bgmVolume;
+        pauseScreen.SetActive(false);
     }
     void Start()
     {
         UpdateLives(0);
+        BGMAud.volume = bgmVolume;
+        BGMVolumeSlider.onValueChanged.AddListener(HandleBGMVolumeChange);
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && isGameActive)
+        {
+            // ポーズ
+            PauseGame();
+        }
     }
 
     // 難易度選択ボタンを押された時、実行される処理 (Easy = 1, Medium = 2, Hard = 3)
@@ -94,4 +116,13 @@ public class GameManager : MonoSingleton<GameManager>
         _score = 0;
         GameOver(false);
     }
+
+    // BGM の制御
+    void HandleBGMVolumeChange(float bgmVolumeToChange)
+    {
+        bgmVolume = bgmVolumeToChange;
+        BGMAud.volume = bgmVolume;
+    }
+
+
 }
