@@ -124,5 +124,14 @@ public class GameManager : MonoSingleton<GameManager>
         BGMAud.volume = bgmVolume;
     }
 
-
+    // PAUSE の制御
+    public void PauseGame()
+    {
+        // Pause状態を切り替え
+        isGamePause = isGamePause ? false : true ;
+        // Pause == true の時, 停止
+        Time.timeScale = isGamePause ? 0 : 1.0f;
+        // Pause 画面の表示切り替え
+        pauseScreen.SetActive(isGamePause);
+    }
 }
